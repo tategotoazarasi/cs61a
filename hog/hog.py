@@ -369,62 +369,52 @@ def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
 
 def final_strategy(score, opponent_score):
 	"""
-	Final strategy that combines Free Bacon (Boar Brawl) and risk management using Sus Fuss.
+	\brief Final strategy for the Game of Hog.
 
-	The strategy works as follows:
-	  - Compute the free points available by rolling 0 dice:
-		  free_points = boar_brawl(score, opponent_score)
-		Then simulate the Sus Fuss update:
-		  new_score_if_zero = sus_points(score + free_points)
-		and derive the gain from rolling 0 dice (free move) as:
-		  gain0 = new_score_if_zero - score
+	This strategy dynamically selects the number of dice to roll based on the current
+	player's score, the opponent's score, and the benefits of taking the Boar Brawl
+	option (rolling 0 dice) which may trigger the Sus Fuss rule. The strategy works as follows:
 
-	  - If the free move yields a win (new_score_if_zero >= GOAL), return 0 dice.
-	  - If the free move yields a high gain (gain0 >= 8), then choose 0 dice,
-		since its deterministic payoff exceeds the approximate average from rolling 6 dice.
-	  - When the player is close to winning (i.e. needing 10 or fewer points), use a more conservative approach:
-		  if the free move would reach or exceed the goal, roll 0;
-		  otherwise, roll only 1 die to minimize risk.
-	  - Otherwise, adjust risk based on the score difference:
-		  - If trailing (score < opponent_score), be aggressive and roll 6 dice.
-		  - If in a significant lead (score - opponent_score >= 15), be conservative and roll 4 dice.
-		  - Otherwise, play with moderate risk and roll 5 dice.
+	  1. Compute the potential points from rolling 0 dice using Boar Brawl, then update the
+		 score by applying the Sus Fuss rule.
+	  2. If the updated score is enough to win the game (i.e. greater than or equal to the GOAL),
+		 choose to roll 0 dice.
+	  3. If the gain from rolling 0 dice is substantial (11 or more points), choose 0 dice.
+	  4. If the current score is close to the goal (within 15 points), play conservatively by rolling 3 dice.
+	  5. If the player is behind the opponent, play aggressively by rolling 6 dice.
+	  6. Otherwise, use a moderate risk approach by rolling 5 dice.
 
-	\param score           Current player's score.
-	\param opponent_score  Opponent's score.
-	\return                The number of dice to roll (an integer between 0 and 10).
+	\param score          The current player's total score.
+	\param opponent_score The opponent's total score.
+	\return               The number of dice to roll this turn.
 	"""
-	goal = GOAL
-	# Compute free points (boar brawl outcome) and simulate Sus Fuss update.
-	free_points = boar_brawl(score, opponent_score)
-	new_score_if_zero = sus_points(score + free_points)
-	gain0 = new_score_if_zero - score
+	goal = 100
 
-	# If rolling 0 dice wins the game, take it.
-	if new_score_if_zero >= goal:
+	# Compute points gained if the player chooses Boar Brawl (rolling 0 dice).
+	bb_points = boar_brawl(score, opponent_score)
+	# Calculate the new score after adding Boar Brawl points and applying the Sus Fuss rule.
+	new_score = sus_points(score + bb_points)
+	# Determine the effective gain from the Boar Brawl option.
+	gain = new_score - score
+
+	# If taking 0 dice (Boar Brawl) would win the game, choose that option.
+	if new_score >= goal:
 		return 0
 
-	# Compare free move gain with the expected gain from rolling 6 dice (~8.7 points).
-	if gain0 >= 8:
+	# If the gain from Boar Brawl is substantial, opt for 0 dice.
+	if gain >= 11:
 		return 0
 
-	# When very close to the goal, minimize risk.
-	if goal - score <= 10:
-		if gain0 >= (goal - score):
-			return 0
-		return 1
+	# If the player's score is close to winning, play conservatively by rolling fewer dice.
+	if goal - score <= 15:
+		return 3
 
-	# Adjust risk based on the score difference.
+	# If the player is trailing the opponent, adopt a more aggressive approach.
 	if score < opponent_score:
-		# If trailing, be more aggressive.
 		return 6
-	elif score - opponent_score >= 15:
-		# If significantly ahead, be conservative.
-		return 4
-	else:
-		# Otherwise, use a moderate risk strategy.
-		return 5
 
+	# Otherwise, take a moderate risk by rolling 5 dice.
+	return 5
 
 
 # END PROBLEM 12
