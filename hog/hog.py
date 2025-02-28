@@ -252,6 +252,7 @@ def is_always_roll(strategy, goal=GOAL):
 				return False
 	return True
 
+
 # END PROBLEM 7
 
 
@@ -268,7 +269,13 @@ def make_averaged(original_function, times_called=1000):
 	"""
 
 	# BEGIN PROBLEM 8
-	"*** YOUR CODE HERE ***"
+	def averaged(*args):
+		sum_call = 0
+		for i in range(times_called):
+			sum_call += original_function(*args)
+		return sum_call / times_called
+
+	return averaged
 
 
 # END PROBLEM 8
