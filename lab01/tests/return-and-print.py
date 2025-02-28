@@ -1,11 +1,11 @@
 test = {
-  'name': 'return-and-print',
-  'points': 0,
-  'suites': [
-    {
-      'cases': [
-        {
-          'code': r"""
+		'name'  : 'return-and-print',
+		'points': 0,
+		'suites': [
+				{
+						'cases' : [
+								{
+										'code'     : r"""
           >>> def welcome():
           ...     print('Go')
           ...     return 'hello'
@@ -20,13 +20,13 @@ test = {
           Bears
           hello world
           """,
-          'hidden': False,
-          'locked': False,
-          'multiline': False
-        }
-      ],
-      'scored': False,
-      'type': 'wwpp'
-    }
-  ]
+										'hidden'   : False,
+										'locked'   : False,
+										'multiline': False
+								}
+						],
+						'scored': False,
+						'type'  : 'wwpp'
+				}
+		]
 }
