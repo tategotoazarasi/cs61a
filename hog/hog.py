@@ -245,8 +245,12 @@ def is_always_roll(strategy, goal=GOAL):
 	False
 	"""
 	# BEGIN PROBLEM 7
-	"*** YOUR CODE HERE ***"
-
+	fix_num = strategy(0, 0)
+	for i in range(0, goal):
+		for j in range(0, goal):
+			if strategy(i, j) != fix_num:
+				return False
+	return True
 
 # END PROBLEM 7
 
