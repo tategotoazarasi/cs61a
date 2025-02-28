@@ -388,8 +388,6 @@ def final_strategy(score, opponent_score):
 	\param opponent_score The opponent's total score.
 	\return               The number of dice to roll this turn.
 	"""
-	goal = 100
-
 	# Compute points gained if the player chooses Boar Brawl (rolling 0 dice).
 	bb_points = boar_brawl(score, opponent_score)
 	# Calculate the new score after adding Boar Brawl points and applying the Sus Fuss rule.
@@ -398,7 +396,7 @@ def final_strategy(score, opponent_score):
 	gain = new_score - score
 
 	# If taking 0 dice (Boar Brawl) would win the game, choose that option.
-	if new_score >= goal:
+	if new_score >= GOAL:
 		return 0
 
 	# If the gain from Boar Brawl is substantial, opt for 0 dice.
@@ -406,7 +404,7 @@ def final_strategy(score, opponent_score):
 		return 0
 
 	# If the player's score is close to winning, play conservatively by rolling fewer dice.
-	if goal - score <= 15:
+	if GOAL - score <= 15:
 		return 3
 
 	# If the player is trailing the opponent, adopt a more aggressive approach.
