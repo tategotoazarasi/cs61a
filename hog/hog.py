@@ -176,6 +176,14 @@ def play(strategy0, strategy1, update, score0=0, score1=0, dice=six_sided, goal=
 	# BEGIN PROBLEM 5
 	"*** YOUR CODE HERE ***"
 	# END PROBLEM 5
+	while score0 < goal and score1 < goal:
+		num = strategy0(score0, score1)
+		score0 = update(num, score0, score1, dice)
+		if score0 >= goal:
+			return score0, score1
+		num = strategy1(score1, score0)
+		score1 = update(num, score1, score0, dice)
+
 	return score0, score1
 
 
