@@ -368,12 +368,63 @@ def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
 
 
 def final_strategy(score, opponent_score):
-	"""Write a brief description of your final strategy.
-
-	*** YOUR DESCRIPTION HERE ***
 	"""
-	# BEGIN PROBLEM 12
-	return 6  # Remove this line once implemented.
+	Final strategy that combines Free Bacon (Boar Brawl) and risk management using Sus Fuss.
+
+	The strategy works as follows:
+	  - Compute the free points available by rolling 0 dice:
+		  free_points = boar_brawl(score, opponent_score)
+		Then simulate the Sus Fuss update:
+		  new_score_if_zero = sus_points(score + free_points)
+		and derive the gain from rolling 0 dice (free move) as:
+		  gain0 = new_score_if_zero - score
+
+	  - If the free move yields a win (new_score_if_zero >= GOAL), return 0 dice.
+	  - If the free move yields a high gain (gain0 >= 8), then choose 0 dice,
+		since its deterministic payoff exceeds the approximate average from rolling 6 dice.
+	  - When the player is close to winning (i.e. needing 10 or fewer points), use a more conservative approach:
+		  if the free move would reach or exceed the goal, roll 0;
+		  otherwise, roll only 1 die to minimize risk.
+	  - Otherwise, adjust risk based on the score difference:
+		  - If trailing (score < opponent_score), be aggressive and roll 6 dice.
+		  - If in a significant lead (score - opponent_score >= 15), be conservative and roll 4 dice.
+		  - Otherwise, play with moderate risk and roll 5 dice.
+
+	\param score           Current player's score.
+	\param opponent_score  Opponent's score.
+	\return                The number of dice to roll (an integer between 0 and 10).
+	"""
+	goal = GOAL
+	# Compute free points (boar brawl outcome) and simulate Sus Fuss update.
+	free_points = boar_brawl(score, opponent_score)
+	new_score_if_zero = sus_points(score + free_points)
+	gain0 = new_score_if_zero - score
+
+	# If rolling 0 dice wins the game, take it.
+	if new_score_if_zero >= goal:
+		return 0
+
+	# Compare free move gain with the expected gain from rolling 6 dice (~8.7 points).
+	if gain0 >= 8:
+		return 0
+
+	# When very close to the goal, minimize risk.
+	if goal - score <= 10:
+		if gain0 >= (goal - score):
+			return 0
+		return 1
+
+	# Adjust risk based on the score difference.
+	if score < opponent_score:
+		# If trailing, be more aggressive.
+		return 6
+	elif score - opponent_score >= 15:
+		# If significantly ahead, be conservative.
+		return 4
+	else:
+		# Otherwise, use a moderate risk strategy.
+		return 5
+
 
 
 # END PROBLEM 12
