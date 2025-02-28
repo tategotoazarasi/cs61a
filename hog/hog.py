@@ -23,14 +23,20 @@ def roll_dice(num_rolls, dice=six_sided):
 	assert num_rolls > 0, "Must roll at least once."
 	# BEGIN PROBLEM 1
 	dice_sum = 0
+	flag = False
 	for i in range(num_rolls):
 		roll = dice()
 		if roll == 1:
-			return 1
+			flag = True
 		else:
 			dice_sum += roll
-	return dice_sum
-	# END PROBLEM 1
+	if flag:
+		return 1
+	else:
+		return dice_sum
+
+
+# END PROBLEM 1
 
 
 def boar_brawl(player_score, opponent_score):
@@ -41,8 +47,14 @@ def boar_brawl(player_score, opponent_score):
 
 	"""
 	# BEGIN PROBLEM 2
-	"*** YOUR CODE HERE ***"
-	# END PROBLEM 2
+	one_digit = player_score % 10
+	ten_digit = (opponent_score // 10) % 10
+	if one_digit == ten_digit:
+		return 1
+	return 3 * abs(one_digit - ten_digit)
+
+
+# END PROBLEM 2
 
 
 def take_turn(num_rolls, player_score, opponent_score, dice=six_sided):
@@ -60,7 +72,9 @@ def take_turn(num_rolls, player_score, opponent_score, dice=six_sided):
 	assert num_rolls <= 10, "Cannot roll more than 10 dice."
 	# BEGIN PROBLEM 3
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 3
+
+
+# END PROBLEM 3
 
 
 def simple_update(num_rolls, player_score, opponent_score, dice=six_sided):
@@ -87,14 +101,18 @@ def num_factors(n):
 	"""Return the number of factors of N, including 1 and N itself."""
 	# BEGIN PROBLEM 4
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 4
+
+
+# END PROBLEM 4
 
 
 def sus_points(score):
 	"""Return the new score of a player taking into account the Sus Fuss rule."""
 	# BEGIN PROBLEM 4
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 4
+
+
+# END PROBLEM 4
 
 
 def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
@@ -103,7 +121,9 @@ def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
 	"""
 	# BEGIN PROBLEM 4
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 4
+
+
+# END PROBLEM 4
 
 
 def always_roll_5(score, opponent_score):
@@ -167,7 +187,9 @@ def always_roll(n):
 
 	# BEGIN PROBLEM 6
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 6
+
+
+# END PROBLEM 6
 
 
 def catch_up(score, opponent_score):
@@ -199,7 +221,9 @@ def is_always_roll(strategy, goal=GOAL):
 	"""
 	# BEGIN PROBLEM 7
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 7
+
+
+# END PROBLEM 7
 
 
 def make_averaged(original_function, times_called=1000):
@@ -216,7 +240,9 @@ def make_averaged(original_function, times_called=1000):
 
 	# BEGIN PROBLEM 8
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 8
+
+
+# END PROBLEM 8
 
 
 def max_scoring_num_rolls(dice=six_sided, times_called=1000):
@@ -229,7 +255,9 @@ def max_scoring_num_rolls(dice=six_sided, times_called=1000):
 	"""
 	# BEGIN PROBLEM 9
 	"*** YOUR CODE HERE ***"
-	# END PROBLEM 9
+
+
+# END PROBLEM 9
 
 
 def winner(strategy0, strategy1):
@@ -273,7 +301,9 @@ def boar_strategy(score, opponent_score, threshold=11, num_rolls=6):
 	"""
 	# BEGIN PROBLEM 10
 	return num_rolls  # Remove this line once implemented.
-	# END PROBLEM 10
+
+
+# END PROBLEM 10
 
 
 def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
@@ -282,7 +312,9 @@ def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
 	Suss Fuss rules."""
 	# BEGIN PROBLEM 11
 	return num_rolls  # Remove this line once implemented.
-	# END PROBLEM 11
+
+
+# END PROBLEM 11
 
 
 def final_strategy(score, opponent_score):
@@ -292,7 +324,9 @@ def final_strategy(score, opponent_score):
 	"""
 	# BEGIN PROBLEM 12
 	return 6  # Remove this line once implemented.
-	# END PROBLEM 12
+
+
+# END PROBLEM 12
 
 
 ##########################
