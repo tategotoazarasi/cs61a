@@ -30,7 +30,10 @@ def product(n, term):
 	>>> product(3, triple)    # 1*3 * 2*3 * 3*3
 	162
 	"""
-	"*** YOUR CODE HERE ***"
+	sum_term = 1
+	for i in range(1, n + 1):
+		sum_term *= term(i)
+	return sum_term
 
 
 def accumulate(fuse, start, n, term):
