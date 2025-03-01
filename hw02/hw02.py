@@ -59,6 +59,7 @@ def accumulate(fuse, start, n, term):
 		start = fuse(start, term(i))
 	return start
 
+
 def summation_using_accumulate(n, term):
 	"""Returns the sum: term(1) + ... + term(n), using accumulate.
 
@@ -102,4 +103,10 @@ def make_repeater(f, n):
 	>>> make_repeater(square, 3)(5) # square(square(square(5)))
 	390625
 	"""
-	"*** YOUR CODE HERE ***"
+
+	def repeater(x):
+		for _ in range(n):
+			x = f(x)
+		return x
+
+	return repeater
