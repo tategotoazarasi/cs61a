@@ -81,7 +81,8 @@ def multiple(a, b):
 	>>> multiple(14, 21)
 	42
 	"""
-	"*** YOUR CODE HERE ***"
+	gcd = lambda num1, num2: num1 if num2 == 0 else gcd(num2, num1 % num2)
+	return a * b // gcd(a, b)
 
 
 def cycle(f1, f2, f3):
