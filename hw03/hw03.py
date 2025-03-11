@@ -182,7 +182,27 @@ def count_dollars_upward(total):
 	>>> check(HW_SOURCE_FILE, 'count_dollars_upward', ['While', 'For'])
 	True
 	"""
-	"*** YOUR CODE HERE ***"
+
+	def count_helper(total, smallest_bill):
+		# Base cases
+		if total == 0:
+			return 1  # Found a valid way to make change
+		if total < 0:
+			return 0  # Invalid way to make change
+		if smallest_bill is None:
+			return 0  # No more bills to use
+
+		# Recursive cases
+		# Case 1: Use the largest bill
+		with_largest = count_helper(total - smallest_bill, smallest_bill)
+
+		# Case 2: Don't use the largest bill
+		without_largest = count_helper(total, next_larger_dollar(smallest_bill))
+
+		return with_largest + without_largest
+
+	# Start with the largest bill ($100)
+	return count_helper(total, 1)
 
 
 def print_move(origin, destination):
