@@ -77,7 +77,18 @@ def interleaved_sum(n, odd_func, even_func):
 	>>> check(HW_SOURCE_FILE, 'interleaved_sum', ['BitAnd', 'BitOr', 'BitXor']) # ban bitwise operators, don't worry about these if you don't know what they are
 	True
 	"""
-	"*** YOUR CODE HERE ***"
+
+	def interleaved_sum_k(k, n, odd_func, even_func):
+		if k > n:
+			return 0
+		if n == k:
+			return odd_func(k)
+		if n == k + 1:
+			return odd_func(k) + even_func(k + 1)
+		if n > k + 1:
+			return odd_func(k) + even_func(k + 1) + interleaved_sum_k(k + 2, n, odd_func, even_func)
+
+	return interleaved_sum_k(1, n, odd_func, even_func)
 
 
 def next_smaller_dollar(bill):
